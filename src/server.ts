@@ -52,7 +52,7 @@ app.post('/scripts',async (request, reply)=>{
 
     const { name, func , log  } = createScriptSchema.parse(request.body)
 
-    await prisma.script.create({
+    const newScript = await prisma.script.create({
         data:{
             name,
             func,
@@ -60,7 +60,8 @@ app.post('/scripts',async (request, reply)=>{
         }
     })
 
-    reply.status(200).send()
+
+    reply.send(newScript.id)
 
 })
 
