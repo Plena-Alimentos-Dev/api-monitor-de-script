@@ -32,11 +32,11 @@ app.put('/attlog',async (request, reply) => {
 
 app.delete('/delete',async(request, reply) =>{
 
-    const createScriptSchema = z.object({
+    const createIdSchema = z.object({
         id: z.string(),
     })
 
-    const {id}  = createScriptSchema.parse(request.query)
+    const {id}  = createIdSchema.parse(request.query)
     const scripts = await prisma.script.delete({ where: { id: id }}  );
     reply.send(scripts)
 
@@ -60,7 +60,7 @@ app.post('/scripts',async (request, reply)=>{
         }
     })
 
-    return {reply}
+    reply.status(200).send()
 
 })
 
