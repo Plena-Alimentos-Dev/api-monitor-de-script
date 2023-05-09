@@ -65,10 +65,6 @@ app.post('/scripts',async (request, reply)=>{
         }
     })
 
-    reply.send({
-        code: 200
-    })
-
 })
 
 
