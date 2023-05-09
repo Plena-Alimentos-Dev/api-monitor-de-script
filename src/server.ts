@@ -65,8 +65,9 @@ app.post('/scripts',async (request, reply)=>{
         }
     })
 
-
-    reply.send(newScript.id)
+    reply.send({
+        code: 500
+    })
 
 })
 
