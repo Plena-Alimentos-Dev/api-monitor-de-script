@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import fastify from "fastify";
 import cors from '@fastify/cors'
 import {z} from 'zod'
+const flatted = require('flatted')
 
 const app = fastify()
 
@@ -47,25 +48,25 @@ app.delete('/delete',async(request, reply) =>{
 
 })
 
-app.post('/scripts',(request, reply)=>{
-    
+app.post('/scripts', async (request, reply) => {
     const createScriptSchema = z.object({
-        name: z.string(),
-        func: z.string(),
-        log: z.string()
+      name: z.string(),
+      func: z.string(),
+      log: z.string()
     })
-
-    const { name, func , log  } = createScriptSchema.parse(request.body)
-
-    prisma.script.create({
-        data:{
-            name,
-            func,
-            log
-        }
+  
+    const { name, func , log } = createScriptSchema.parse(request.body)
+  
+    const newScript = await prisma.script.create({
+      data: {
+        name,
+        func,
+        log
+      }
     })
-
-})
+  
+    reply.send(flatted(newScript))
+  })
 
 
 app.listen({
