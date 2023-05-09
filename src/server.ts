@@ -47,7 +47,7 @@ app.delete('/delete',async(request, reply) =>{
 
 })
 
-app.post('/scripts',async (request, reply)=>{
+app.post('/scripts',(request, reply)=>{
     
     const createScriptSchema = z.object({
         name: z.string(),
@@ -57,7 +57,7 @@ app.post('/scripts',async (request, reply)=>{
 
     const { name, func , log  } = createScriptSchema.parse(request.body)
 
-    await prisma.script.create({
+    prisma.script.create({
         data:{
             name,
             func,
