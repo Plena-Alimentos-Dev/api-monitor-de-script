@@ -48,26 +48,33 @@ app.delete('/delete',async(request, reply) =>{
 
 })
 
-app.post('/scripts', async (request, reply) => {
-    const createScriptSchema = z.object({
-      name: z.string(),
-      func: z.string(),
-      log: z.string()
-    })
-  
-    const { name, func , log } = createScriptSchema.parse(request.body)
-  
-    const newScript = await prisma.script.create({
-      data: {
-        name,
-        func,
-        log
-      }
-    })
-  
-    reply.send(flatted(newScript))
-  })
 
+app.post('/scripts', async (request, reply) => {
+    try {
+      const createScriptSchema = z.object({
+        name: z.string(),
+        func: z.string(),
+        log: z.string(),
+      });
+  
+      const { name, func, log } = createScriptSchema.parse(request.body);
+  
+      const newScript = await prisma.script.create({
+        data: {
+          name,
+          func,
+          log,
+        },
+      });
+  
+      const flatScript = flatted.stringify(newScript);
+  
+      reply.send(flatScript);
+    } catch (error) {
+      console.error(error);
+      reply.status(500).send({ message: error });
+    }
+  });
 
 app.listen({
     host: '0.0.0.0',
